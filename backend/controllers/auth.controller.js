@@ -27,7 +27,7 @@ export const login = async (req,res)=>{
                 returnDocument:"after"
             }
         )
-        const token = jwt.sign({user_Id:user._id},process.env.jWT_SECRET,{expiresIn:"7d"})
+        const token = jwt.sign({userId: user._id}, process.env.jWT_SECRET, {expiresIn:"7d"})
 
         res.cookie("token",token,{
             httpOnly:"true",
@@ -58,6 +58,17 @@ export const logout= async (req,res)=>{
         
     } catch (error) {
         return res.status(500).json({message: `LogOut Error ${error}`})
+        
+    }
+}
+
+
+export const me =async (req,res)=>{
+    try {
+        const user=req.user
+        return res.status(200).json(user)
+    } catch (error) {
+        return res.status(500).json({message:`me error ${error}`})
         
     }
 }
